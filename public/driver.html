@@ -51,10 +51,10 @@
 
 <body>
     <div class="container">
-        <div>
+        <div style="display: flex; justify-content: space-between;">
             <button type="btn" id="vote">Emit</button>
+            <button type="btn" id="reset">Reset</button>
         </div>
-
         <div class="start">
             <div>
                 <label for="timer">Timer(second)</label>
@@ -73,7 +73,7 @@
         const socket = io('http://150.95.81.120');
 
         document.getElementById('vote').addEventListener('click', function () {
-            socket.emit('vote', true)
+            socket.emit('vote', false)
         })
 
         let timeOut;
@@ -101,6 +101,23 @@
                 document.getElementById('timer').value = 0;
                 clearInterval(timeOut);
             }
+            
+            socket.emit('stop',true);
+        })
+
+        document.getElementById('reset').addEventListener('click', function () {
+            document.getElementById('stop').setAttribute('disabled', true);
+            document.getElementById('start').removeAttribute('disabled');
+            if (timeOut) {
+                document.getElementById('timer').value = 0;
+                clearInterval(timeOut);
+            }
+
+            socket.emit('reset', true);
+        })
+
+        socket.on('resetDefault', function ({ count, start_time, end_time }) {
+            alert('Reset Success');
         })
     </script>
 </body>

@@ -1,8 +1,12 @@
+DROP TABLE IF EXISTS `votes`;
 
 CREATE TABLE `votes` (
-  `id` int NOT NULL,
-  `count` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `count` int NOT NULL DEFAULT '0',
+  `start_time` datetime NULL,
+  `end_time` datetime NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `votes` VALUES (1,0);
+INSERT INTO votes (count)
+VALUES (0);
