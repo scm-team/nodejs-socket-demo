@@ -4,7 +4,7 @@
 
 Clone the repo:
 ```
-git clone https://github.com/scm-team/nodejs-socket-demo
+git clone https://github.com/scm-team/nodejs-socket-demo.git
 cd nodejs-socket-demo
 ```
 
