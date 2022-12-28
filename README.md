@@ -20,7 +20,7 @@ mysql -u DB_USERNAME -p DATABASE_NAME < database/db.sql
 
 Setup configuration:
 ```
-cp.env.example .env
+cp .env.example .env
 ```
 
 Start Server
