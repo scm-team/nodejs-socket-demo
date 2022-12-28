@@ -4,7 +4,7 @@
 
 Clone the repo:
 ```
-git clone https://github.com/scm-team/nodejs-socket-demo
+git clone https://github.com/scm-team/nodejs-socket-demo.git
 cd nodejs-socket-demo
 ```
 
@@ -20,7 +20,7 @@ mysql -u DB_USERNAME -p DATABASE_NAME < database/db.sql
 
 Setup configuration:
 ```
-cp.env.example .env
+cp .env.example .env
 ```
 
 Start Server
