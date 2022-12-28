@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .start {
+        display: flex;
+    }
+
+    .start div {
+        flex: 1;
+        margin: 20px 0;
+    }
+
+    button {
+        font-size: 2rem;
+        padding: 5px 10px;
+    }
+
+    input {
+        width: 100%;
+        font-size: 1.5rem;
+        padding-left: 5px;
+        line-height: 2.5rem;
+    }
+
+    label {
+        font-size: 2rem;
+        margin-right: 5px;
+    }
+
+    .container {
+        width: 400px;
+        margin: 60px auto;
+        border: 1px solid black;
+        padding: 50px;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div>
+            <button type="btn" id="vote">Emit</button>
+        </div>
+
+        <div class="start">
+            <div>
+                <label for="timer">Timer(second)</label>
+                <input type="number" id="timer" value="0">
+            </div>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+            <button type="button" id="start">Start</button>
+            <button type="button" id="stop" disabled>Stop</button>
+        </div>
+    </div>
+    <script type="module">
+        import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
+
+        const socket = io('http://localhost:4000');
+
+        document.getElementById('vote').addEventListener('click', function () {
+            socket.emit('vote', true)
+        })
+
+        let timeOut;
+
+        document.getElementById('start').addEventListener('click', function () {
+            const time = document.getElementById('timer').value;
+            
+            if(!parseInt(time)){
+                alert('Second must be greater than 0');
+                return;
+            }
+            
+            document.getElementById('start').setAttribute('disabled', true);
+            document.getElementById('stop').removeAttribute('disabled');
+            timeOut = setInterval(() => {
+                socket.emit('vote', true)
+            }, time * 1000)
+
+        })
+
+        document.getElementById('stop').addEventListener('click', function () {
+            document.getElementById('stop').setAttribute('disabled', true);
+            document.getElementById('start').removeAttribute('disabled');
+            if (timeOut) {
+                document.getElementById('timer').value = 0;
+                clearInterval(timeOut);
+            }
+        })
+    </script>
+</body>
+
+</html>

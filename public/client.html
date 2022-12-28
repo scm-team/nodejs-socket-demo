@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    div {
+        padding: 15px;
+        background-color: rgb(224, 77, 77);
+        text-align: center;
+        max-width: 100px;
+        max-height: 100px;
+    }
+</style>
+
+<body>
+    <h1>
+        Result: <span id="v-box">0</span>
+    </h1>
+
+    <script type="module">
+        import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
+
+        const socket = io('http://localhost:4000');
+
+        socket.on('voteToUser', function (vote) {
+            document.getElementById('v-box').innerText = vote;
+        })
+    </script>
+</body>
+
+</html>
