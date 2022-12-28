@@ -25,7 +25,8 @@
     <script type="module">
         import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
 
-        const socket = io('http://localhost:4000');
+        // const socket = io('http://localhost:4000');
+        const socket = io('http://150.95.81.120');
 
         socket.on('voteToUser', function (vote) {
             document.getElementById('v-box').innerText = vote;

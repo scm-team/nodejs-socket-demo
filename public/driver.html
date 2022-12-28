@@ -69,7 +69,8 @@
     <script type="module">
         import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
 
-        const socket = io('http://localhost:4000');
+        // const socket = io('http://localhost:4000');
+        const socket = io('http://150.95.81.120');
 
         document.getElementById('vote').addEventListener('click', function () {
             socket.emit('vote', true)
@@ -79,12 +80,12 @@
 
         document.getElementById('start').addEventListener('click', function () {
             const time = document.getElementById('timer').value;
-            
-            if(!parseInt(time)){
+
+            if (!parseInt(time)) {
                 alert('Second must be greater than 0');
                 return;
             }
-            
+
             document.getElementById('start').setAttribute('disabled', true);
             document.getElementById('stop').removeAttribute('disabled');
             timeOut = setInterval(() => {
