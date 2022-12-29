@@ -5,6 +5,7 @@ const cors = require('cors');
 const http = require('http');
 const dotenv = require('dotenv');
 const dayjs = require('dayjs');
+const log = require('node-file-logger');
 const localizedFormat = require('dayjs/plugin/localizedFormat')
 dayjs.extend(localizedFormat)
 dotenv.config();
@@ -29,6 +30,29 @@ app.get('/client', (req, res) => {
     res.sendFile(__dirname + '/public/client.html');
 })
 
+app.get('/log', (req, res) => {
+    res.sendFile(__dirname + '/public/log.html')
+})
+
+const options = {
+    timeZone: 'Asia/Yangon',
+    folderPath: './logs/',
+    dateBasedFileNaming: true,
+    // Required only if dateBasedFileNaming is set to false
+    fileName: 'All_Logs',
+    // Required only if dateBasedFileNaming is set to true
+    fileNamePrefix: 'Logs_',
+    fileNameSuffix: '',
+    fileNameExtension: '.log',
+
+    dateFormat: 'YYYY-MM-DD',
+    timeFormat: 'HH:mm:ss.SSS',
+    logLevel: 'debug',
+    onlyFileLogging: true
+}
+
+log.SetUserOptions(options)
+
 const connection = mysql.createConnection({
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
@@ -44,6 +68,14 @@ io.on('connection', (socket) => {
     socket.on("disconnect", (reason) => {
         console.log(`Socket disconnect ${socket.id} due to ${reason}`);
     });
+
+    socket.on('makeLog', () => {
+        io.fetchSockets().then(sockets => {
+            log.Info(`Total number of client:${sockets.length}`)
+            io.to(socket.id).emit('sendTotalClient', sockets.length)
+        })
+
+    })
 
     connection.query(
         'SELECT * FROM `votes`',
@@ -92,8 +124,8 @@ io.on('connection', (socket) => {
                         socket.broadcast.emit('stopVote', {
                             count: results[0]?.count,
                             start_time: dayjs(startTime).format('llll'),
-                            end_time:  dayjs(endTime).format('llll'),
-                            diff:{
+                            end_time: dayjs(endTime).format('llll'),
+                            diff: {
                                 days,
                                 hours,
                                 minutes,
