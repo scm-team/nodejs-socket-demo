@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>logging</title>
+</head>
+<style>
+    div {
+        text-align: center;
+        margin-top: 100px;
+    }
+</style>
+
+<body>
+    <div>
+        <h1>
+            Total numbers of client: <span id="total">0</span>
+        </h1>
+        <script type="module">
+            import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
+            // const socket = io('http://localhost:4000');
+            const socket = io('http://150.95.81.120');
+            socket.emit('makeLog', true);
+
+            socket.on('sendTotalClient', (totalClient) => {
+                document.getElementById('total').innerText = totalClient;
+            })
+
+        </script>
+    </div>
+</body>
+
+</html>
